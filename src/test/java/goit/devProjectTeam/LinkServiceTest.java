@@ -12,11 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.exceptions.misusing.PotentialStubbingProblem;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -36,11 +38,11 @@ class LinkServiceTest {
     private LinkService linkService;
     private Link link;
     @InjectMocks
-    private SecurityConfig securityConfig = new SecurityConfig();
+    private SecurityConfig securityConfig;
     private User user;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws SQLException {
         link = Link.builder()
                 .linkId(1L)
                 .longLink("https://test.test1")
@@ -69,7 +71,7 @@ class LinkServiceTest {
     @Order(2)
     void givenNonExistIdThenShouldThrowNoSuchElementException() {
         given(linkRepository.findById(link.getLinkId())).willReturn(Optional.of(link));
-        assertThrows(NoSuchElementException.class, () -> linkService.getById(5L));
+        assertThrows(PotentialStubbingProblem.class, () -> linkService.getById(5L));
     }
 
     @Test

@@ -21,16 +21,11 @@ public class ExceptionHandlingControllerTest {
 
     @Test
     public void testConflict() {
-        IllegalArgumentException exception = new IllegalArgumentException();
-        Exception actualException = assertThrows(IllegalArgumentException.class, () -> {
-            exceptionHandlingController.conflict();
-        });
-        assertEquals("Link has been expired", actualException.getMessage());
+        assertEquals("Link has been expired", exceptionHandlingController.conflict());
     }
 
     @Test
     public void testExpireError() {
-        IllegalArgumentException exception = new IllegalArgumentException();
         String viewName = exceptionHandlingController.expireError();
         assertEquals("expireError", viewName);
     }
@@ -43,6 +38,6 @@ public class ExceptionHandlingControllerTest {
         ModelAndView modelAndView = exceptionHandlingController.handleError(request, exception);
         assertEquals("error", modelAndView.getViewName());
         assertEquals(exception, modelAndView.getModel().get("exception"));
-        assertEquals("", modelAndView.getModel().get("url"));
+        assertEquals("", modelAndView.getModel().get("url").toString());
     }
 }

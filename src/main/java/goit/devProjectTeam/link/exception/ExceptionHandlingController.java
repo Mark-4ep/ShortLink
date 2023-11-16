@@ -17,8 +17,8 @@ public class ExceptionHandlingController {
     @ResponseStatus(value = HttpStatus.NOT_FOUND,
             reason = "Link has been expired")
     @ExceptionHandler(IllegalArgumentException.class)
-    public void conflict() {
-        // TODO document why this method is empty
+    public String conflict() {
+       return "Link has been expired";
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

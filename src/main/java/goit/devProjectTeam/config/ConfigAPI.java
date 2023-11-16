@@ -19,7 +19,4 @@ public class ConfigAPI {
                 .description("The Link Shortener project using Java and Spring Boot")
                   );
     }
-
-
-
 }
